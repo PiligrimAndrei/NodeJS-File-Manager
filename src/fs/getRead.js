@@ -3,14 +3,14 @@ import { dirname } from 'path';
 import fs from 'fs';
 import path from 'path';
 
-export const read = async () => {
+export const getRead = async (filePath) => {
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = dirname(__filename);
 
-    const filePass = path.resolve(__dirname, 'files', 'fileToRead.txt')
+    const filePass = path.resolve(filePath)
     fs.access(filePass, (err) => {
         if (err) {
-            throw Error('FS operation failed');
+            console.error('Operation failed');
         } else {
             fs.readFile(filePass, 'utf-8', (err, data) => {
                 if (err) console.log(err)
@@ -19,5 +19,5 @@ export const read = async () => {
         }
     })
 };
-read();
-// node src/fs/read.js
+
+// cut src/fs/files/fileToRead.txt

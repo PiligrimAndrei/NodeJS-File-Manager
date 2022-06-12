@@ -4,18 +4,26 @@ import fs from 'fs';
 import path from 'path';
 import zlib from 'zlib';
 
-export const decompress = async () => {
+export const getDecompress = async (ArgsOne, ArgsTwo) => {
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = dirname(__filename);
 
-    const filePass = path.resolve(__dirname, 'files', 'fileTocompress.txt');
-    const zipPass = path.resolve(__dirname, 'files', 'archive.gz');
+    const filePass = path.resolve(ArgsOne);
+    //console.log('filePass', filePass);
+    const zipPass = path.resolve(ArgsTwo);
+    //console.log('argsTwo', ArgsTwo);
+    //console.log('zipPass', zipPass);
 
-    const input = fs.createReadStream(zipPass);
-    const output = fs.createWriteStream(filePass);
+    fs.access(filePass, (err) => {
+        if (err) console.error('Operation failed: not file')
+        else {
+            const input = fs.createReadStream(filePass);
+            const output = fs.createWriteStream(zipPass);
 
-    const unzip = zlib.createUnzip();
-    input.pipe(unzip).pipe(output);
+            const BrotliDecompress = zlib.createBrotliDecompress();
+            input.pipe(BrotliDecompress).pipe(output);
+        }
+    })
+
 };
-decompress();
-//node src/zip/decompress.js
+//decompress src/zip/files/archive src/zip/files/fileToCompession.txt   
