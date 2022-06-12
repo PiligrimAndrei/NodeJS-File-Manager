@@ -10,8 +10,9 @@ import { getCopy } from './fs/getCopy.js';
 import { getRemove } from './fs/getRemove.js';
 import { getList } from './fs/getList.js';
 import { getHash } from './hash/gethash.js';
+import { addFile } from './fs/addFile.js';
 
-export const getSwitchCommand = async (command, commandArgsOne, commandArgsTwo, dirNow) => {
+export const getSwitchCommand = (command, commandArgsOne, commandArgsTwo, dirNow) => {
   const pathSeporator = path.sep;
   switch (command) {
     case 'up':
@@ -42,10 +43,7 @@ export const getSwitchCommand = async (command, commandArgsOne, commandArgsTwo, 
       };
       break;
     case 'add':
-      const fileAddPass = path.resolve(commandArgsOne);
-      fs.open(fileAddPass, 'w+', (err) => {
-        if (err) console.error('Operation failed')
-      });
+      addFile(commandArgsOne)
       break;
     case 'cat':
       getRead(commandArgsOne);
@@ -78,5 +76,6 @@ export const getSwitchCommand = async (command, commandArgsOne, commandArgsTwo, 
     default:
       console.error('Invalid input')
   }
+
 };
 

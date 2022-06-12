@@ -8,7 +8,7 @@ const pathSeporator = path.sep;
 const startArgs = process.argv.slice(2);
 const userName = startArgs[0].split('=')[1];
 console.log('Welcome to the File Manager, ', userName, '\n');
-process.chdir(currentDir, (err) => console.log(err))
+process.chdir(currentDir, (err) => console.log('Operation failed'))
 console.log('You are currently in ', process.cwd());
 
 process.stdin.on('data', (data) => {

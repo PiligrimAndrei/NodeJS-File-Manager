@@ -1,4 +1,5 @@
 import path from 'path';
+import fs from 'fs';
 
 export const addFile = async (commandArgsOne) => {
   if (commandArgsOne) {
