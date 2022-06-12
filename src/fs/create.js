@@ -1,6 +1,5 @@
 import { getFilePass } from './getFilePass.js';
 import fs from 'fs';
-import path from 'path';
 
 export const create = async () => {
     const filePass = getFilePass(import.meta.url, 'fresh.txt');

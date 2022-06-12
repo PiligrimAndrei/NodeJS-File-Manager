@@ -1,18 +1,13 @@
-import fs from 'fs';
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
+import os from 'os';
 import path from 'path'
-import fsPromises from 'fs/promises';
-import { getFilePass } from './fs/getFilePass.js';
 import { getSwitchCommand } from './getSwitchCommand.js'
 
 
-let currentDir = dirname(fileURLToPath(import.meta.url));
+let currentDir = os.homedir();
 const pathSeporator = path.sep;
-console.log('pathSeporator', pathSeporator);
 const startArgs = process.argv.slice(2);
 const userName = startArgs[0].split('=')[1];
-console.log('Welcome to the File Manager, ', userName);
+console.log('Welcome to the File Manager, ', userName, '\n');
 process.chdir(currentDir, (err) => console.log(err))
 console.log('You are currently in ', process.cwd());
 
@@ -22,7 +17,7 @@ process.stdin.on('data', (data) => {
   const commandArgsOne = cliArgs[1];
   const commandArgsTwo = cliArgs[2];
 
-  if (command.startsWith('exit')) {
+  if (command.startsWith('.exit')) {
     console.log('Thank you for using File Manager, ', userName);
     process.exit();
   } else {

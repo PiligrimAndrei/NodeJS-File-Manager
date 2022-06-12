@@ -8,39 +8,36 @@ import { getRead } from './fs/getRead.js';
 import { getRename } from './fs/getRename.js';
 import { getCopy } from './fs/getCopy.js';
 import { getRemove } from './fs/getRemove.js';
+import { getList } from './fs/getList.js';
+import { getHash } from './hash/gethash.js';
 
 export const getSwitchCommand = async (command, commandArgsOne, commandArgsTwo, dirNow) => {
   const pathSeporator = path.sep;
   switch (command) {
     case 'up':
       process.chdir('../', (err) =>
-        console.error('Operation failed'));
-      console.log(process.cwd())
+        console.log(process.cwd()));
       break;
     case 'cd..':
       process.chdir('../', (err) =>
         console.error('Operation failed'))
       break;
     case 'ls':
-      fs.readdir(dirNow, (err, files) => {
-        if (err) {
-          throw Error('FS operation failed')
-        } else {
-          files.forEach(file => console.log(file))
-          console.log('dirNow', dirNow)
-          return dirNow;
-        }
-      });
+      getList(dirNow);
       break;
     case 'cd':
       switch (commandArgsOne) {
         case '..':
-          process.chdir('../', (err) =>
-            console.error('Operation failed'))
+          process.chdir('../', (err) => {
+            if (err) console.error('Operation failed')
+          });
           break;
         default:
-          process.chdir(commandArgsOne, (err) =>
-            console.error('Operation failed'));
+          if (commandArgsOne) {
+            process.chdir(path.resolve(commandArgsOne), (err) => {
+              if (err) console.error('Operation failed');
+            });
+          } else console.error('Operation failed');
           break;
       };
       break;
@@ -75,7 +72,9 @@ export const getSwitchCommand = async (command, commandArgsOne, commandArgsTwo, 
     case 'decompress':
       getDecompress(commandArgsOne, commandArgsTwo);
       break;
-
+    case 'hash':
+      getHash(commandArgsOne);
+      break;
     default:
       console.error('Invalid input')
   }
